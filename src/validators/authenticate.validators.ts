@@ -22,12 +22,12 @@ async function valdiateSecretKey(req:Request,res:Response,next:NextFunction){
     if(!userDetails){
         const errorResponse = Common.ApiResponse.ErrorResponse(
             new Common.AppError(
-                StatusCodes.FORBIDDEN,
+                StatusCodes.UNAUTHORIZED,
                 'You\'re not authorised to do this operation'
             )
         )
         return res
-            .status(StatusCodes.FORBIDDEN)
+            .status(StatusCodes.UNAUTHORIZED)
             .json(errorResponse);
     }
     (req as any).user = userDetails;

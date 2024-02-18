@@ -3,7 +3,14 @@ import Data from '../models/data';
 class DataRepository{
     private model=Data;
     private maxDocuments:number;
+    private startDate:string;
+    private endDate:string;
 
+    setStartAndEndDate(startDate:string, endDate:string){
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    
     setMaxDocument(maxDocuments:number){
         this.maxDocuments=maxDocuments;
     }
@@ -13,31 +20,29 @@ class DataRepository{
             lake_name:lake_name,
             parameter_name:parameter_name,
         }).limit(this.maxDocuments);
-        console.log(data.length);
         return data;
     }
 
-    async getParameterDataOfLakeInDateRange(lake_name:string,parameter_name:string,date:any){
+    async getParameterDataOfLakeInDateRange(lake_name:string,parameter_name:string){
+        console.log(this.startDate)
+        console.log(this.endDate)
         const data = await this.model.find({
             lake_name:lake_name,
             parameter_name:parameter_name,
-            date: {$gte:new Date(date.startDate),$lte:new Date(date.endDate)}
+            date: {$gte:new Date(this.startDate),$lte:new Date(this.endDate)}
         }).limit(this.maxDocuments);
         console.log(data.length);
         return data;
     }
 
 
-    async getParameterDataOfLakeForYear(lake_name:string,parameter_name:string,year:number){
-        const startOfYear = `${year}-01-01`;
-        const endOfYear = `${year}-12-31`;
+    async getParameterDataOfLakeForYear(lake_name:string,parameter_name:string){
 
         const data = await this.model.find({
             lake_name:lake_name,
             parameter_name:parameter_name,
-            // date: { $gte: startOfYear, $lte: endOfYear }
-            date: {$gte:new Date(startOfYear),$lte:new Date(endOfYear)}
-        }).limit(this.maxDocuments);
+            date: {$gte:new Date(this.startDate),$lte:new Date(this.endDate)}
+        });
         return data;
 
     }
