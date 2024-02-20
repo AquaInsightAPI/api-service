@@ -1,12 +1,11 @@
-import express from 'express';
-import ApiRoutes from './routes'
-import {ServerConfig,dbConnect} from './config';
+import express , { Express, Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import apiRouter from './routes';
+const app : Express = express();
 
-const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/api',ApiRoutes);
+app.use('/api', apiRouter);
 
-app.listen(ServerConfig.PORT, () =>{
-  dbConnect();
-  console.log(`Server is listening at http://localhost:${ServerConfig.PORT}`);
-});
+export default app;

@@ -42,7 +42,6 @@ class DataService{
 
     async getParameterDataOfLakeForYear(data: Types.QueryDataType){
         try{
-            console.log(data.userPlan)
             if(data.userPlan==='free'){
                 throw new Common.AppError(StatusCodes.FORBIDDEN,'Forbidden: Free plan cannot access this data')
             }
